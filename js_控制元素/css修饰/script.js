@@ -147,7 +147,7 @@
 let menuList = document.querySelectorAll('#menuUL >li')
 // 3 每次点一次图片增加一个采购表
 let selectedFoodList = [];
-// 2  增加交互功能
+// 2  增加交互功能 给每个li增加一个点击事件
 for (let i =0;i< menuList.length;i++){
     let listItem = menuList[i]
     listItem.addEventListener('click',function(){
@@ -283,6 +283,42 @@ order_button.addEventListener(`click`,function(){
 
 })
 
+// 14 随机水果机按钮
+let randomFruitBtn = document.querySelector('#random_fruit')
+randomFruitBtn.addEventListener('click',function(){
+    // 获取所有水果卡片
+    let fruitCards = document.querySelectorAll('.fruit-card');
+    
+    // 随机选择一个水果索引
+    let randomIndex = Math.floor(Math.random() * fruitCards.length);
+    let selectedFruit = fruitCards[randomIndex];
+    
+    // 获取水果信息
+    let name = selectedFruit.querySelector('.fruit-name').innerHTML;
+    let price = Number(selectedFruit.querySelector('.fruit-price').innerHTML.match(/\d+/g)[0]);
+    
+    // 添加到订单
+    let existingItem = selectedFoodList.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.count++;
+    } else {
+        selectedFoodList.push({
+            name: name,
+            price: price,
+            count: 1
+        });
+    }
+    
+    // 添加动画效果
+    selectedFruit.classList.add('random-selected');
+    setTimeout(() => {
+        selectedFruit.classList.remove('random-selected');
+    }, 1000);
+    
+    // 更新订单显示
+    updateSelectNodeList();
+})
+
 // 11 delete fruits
 let delete_button = document.querySelector(`#delete_button`)
 delete_button.addEventListener('click', function() {
@@ -314,7 +350,7 @@ save_button.addEventListener('click',()=>{
     window.alert('订单保存成功')
 }) 
 
-// 监听提交订单按钮事件
+//13  监听提交订单按钮事件
 let confirm_button = document.querySelector(`#confirm_button`)
 confirm_button.addEventListener('click',()=>{
     // 显示提示信息

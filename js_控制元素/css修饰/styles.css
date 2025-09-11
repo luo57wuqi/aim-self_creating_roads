@@ -70,9 +70,46 @@ li {
 }
 
 .fruit-card img {
+    /* 设置图片宽度占满容器 */
     width: 100%;
+    /* 固定图片高度 */
     height: 120px;
-    object-fit: cover;
+    /* 保持图片比例并填充指定区域 */
+    object-fit: cover; 
+    /* 当鼠标悬停在图片上时的过渡效果 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* 图片悬停效果 */
+}
+/* 水果卡片悬停效果 */
+
+.fruit-card img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.fruit-card:hover img {
+    transform: scale(1.1);
+}
+
+/* 随机选择时的动画效果 */
+.random-selected {
+    animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 }
 
 .fruit-name {
@@ -247,12 +284,34 @@ tfoot td {
 
 .checkout {
     background-color: #1a936f;
-    padding: 12px 30px;
+    color: white;
     font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     width: 100%;
-    transition: background-color 0.3s;
 }
 
 .checkout:hover {
     background-color: #147a5a;
+}
+
+.random-select {
+    background-color: #ff6b35;
+    color: white;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.random-select:hover {
+    background-color: #e55a2b;
+    transform: translateY(-2px);
 }
