@@ -1,0 +1,12 @@
+.my-paragraph::before {
+    color: hotpink;
+    content: " 样式保存的文本数据! ";
+
+}
+#css_inner_url {
+    width:50px;
+    background-color: #d7d7d7;
+    background-size: 100% 100%;
+    background-image: url("./src/atrributImag.jpg.avif");
+    height: 45px;
+}

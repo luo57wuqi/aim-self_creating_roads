@@ -1,0 +1,258 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft YaHei', sans-serif;
+}
+
+body {
+    background-color: #f0f8f1;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 标题样式 */
+header {
+    background-color: #1a936f;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+/* 水果网格布局 */
+.menu {
+    padding: 20px;
+}
+
+/* 水果列表样式 */
+.fruits-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    list-style-type: none;
+    width: 100%;
+}
+
+/* li元素样式 - 用于包裹水果卡片 */
+li {
+    display: block; /* 块级显示确保每个列表项占据完整宽度 */
+    margin: 0; /* 移除默认外边距 */
+    padding: 0; /* 移除默认内边距 */
+    transition: transform 0.2s; /* 添加过渡效果 */
+}
+
+/* 水果卡片点击效果 */
+.fruit-card.clicked {
+    transform: scale(0.95); /* 点击时缩小效果 */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* 点击时添加阴影 */
+}
+
+/* 水果卡片样式 */
+.fruit-card {
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.fruit-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.fruit-name {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.fruit-price {
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* 水果卡片背景颜色 */
+.tomato {
+    background-color: #ffcdd2;
+}
+
+.watermelon {
+    background-color: #f0fff4;
+}
+
+.banana {
+    background-color: #fff9c4;
+}
+
+.lime {
+    background-color: #f0fff4;
+}
+
+.orange {
+    background-color: #ffe0b2;
+}
+
+.grape {
+    background-color: #e1bee7;
+}
+
+.cherry {
+    background-color: #ffcdd2;
+}
+
+.mango {
+    background-color: #f0fff4;
+}
+
+.kiwi {
+    background-color: #e8f5e9;
+}
+
+/* 按钮样式 */
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.new-order {
+    background-color: #1a936f;
+}
+
+.save-order {
+    background-color: #1a936f;
+}
+
+.clear-items {
+    background-color: #1a936f;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* 订单列表样式 */
+#selectedUl {
+    padding: 0 20px;
+    margin: 0;
+    list-style: none;
+}
+
+#selectedUl li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cell {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+}
+
+.nameCell {
+    flex: 2;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #1a936f;
+    margin-right: 8px;
+}
+
+.amountCell {
+    font-weight: bold;
+    color: #1a936f;
+}
+
+/* 订单摘要表格 */
+.order-summary {
+    padding: 0 20px 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+tfoot td {
+    font-weight: bold;
+    font-size: 16px;
+    color: #1a936f;
+}
+
+#total_amount {
+    color: #1a936f;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 结账按钮 */
+.checkout-button {
+    padding: 0 20px 20px;
+    text-align: center;
+}
+
+.checkout {
+    background-color: #1a936f;
+    padding: 12px 30px;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.checkout:hover {
+    background-color: #147a5a;
+}

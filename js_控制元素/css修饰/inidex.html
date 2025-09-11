@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水果购物页面</title>
+    <介绍>
+            实现的水果购物页面具有以下功能：
+            1. 1.展示9种不同的水果，每种水果有图片、名称和价格
+            2. 2.点击水果可以将其添加到订单中
+            3. 3.提供新建订单、保存订单和删除商品的功能按钮
+            4. 4.显示订单摘要表格，包括商品名称、数量、价格和小计
+            5. 5.计算并显示订单总金额
+            6. 6. 提供确认订单的功能
+            7 images from https://pixabay.com/zh/images/search/grapes%20cartoon/?pagi=3
+    </介绍>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>欢迎光临</h1>
+        </header>
+        
+        <div class="menu" id="menu">
+            <ul class="fruits-list" id = "menuUL">
+                <!-- 第一行水果 -->
+                <li>
+                    <div class="fruit-card tomato">
+                        <img src="https://cdn.pixabay.com/photo/2016/08/01/17/08/tomatoes-1561565_640.jpg" alt="番茄">
+                        <div class="fruit-name">番茄</div>
+                        <div class="fruit-price">¥ 21</div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="fruit-card watermelon">
+                        <img src="https://cdn.pixabay.com/photo/2015/06/19/16/48/watermelon-815072_640.jpg" alt="西瓜">
+                        <div class="fruit-name">西瓜</div>
+                        <div class="fruit-price">¥ 19</div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="fruit-card banana">
+                        <img src="https://cdn.pixabay.com/photo/2016/01/03/17/59/bananas-1119790_640.jpg" alt="香蕉">
+                        <div class="fruit-name">香蕉</div>
+                        <div class="fruit-price">¥ 23</div>
+                    </div>
+                </li>
+                
+                <!-- 第二行水果 -->
+                <li>
+                    <div class="fruit-card lime">
+                        <img src="https://cdn.pixabay.com/photo/2017/03/10/15/15/lime-2133091_640.jpg" alt="柠檬">
+                        <div class="fruit-name">柠檬</div>
+                        <div class="fruit-price">¥ 33</div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="fruit-card orange">
+                        <img src="https://cdn.pixabay.com/photo/2017/01/20/15/06/oranges-1995056_640.jpg" alt="橘子">
+                        <div class="fruit-name">橘子</div>
+                        <div class="fruit-price">¥ 10</div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="fruit-card grape">
+                        <img src="https://cdn.pixabay.com/photo/2022/09/23/05/41/grape-7473724_640.jpg" alt="葡萄">
+                        <div class="fruit-name">葡萄</div>
+                        <div class="fruit-price">¥ 13</div>
+                    </div>
+                </li>
+                
+                <!-- 第三行水果 -->
+                <li>
+                    <div class="fruit-card cherry">
+                        <img src="https://cdn.pixabay.com/photo/2017/05/07/19/32/strawberry-2293337_640.jpg" alt="樱桃">
+                        <div class="fruit-name">樱桃</div>
+                        <div class="fruit-price">¥ 67</div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="fruit-card mango">
+                        <img src="https://cdn.pixabay.com/photo/2012/07/09/07/16/mango-51995_640.jpg" alt="芒果">
+                        <div class="fruit-name">芒果</div>
+                        <div class="fruit-price">¥ 56</div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="fruit-card kiwi">
+                        <img src="https://cdn.pixabay.com/photo/2022/07/31/09/39/fruit-7355388_640.jpg" alt="猕猴桃">
+                        <div class="fruit-name">猕猴桃</div>
+                        <div class="fruit-price">¥ 32</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="action-buttons">
+            <button id="order_button" class="btn new-order">新建订单</button>
+            <button id="save_button" class="btn save-order">保存订单</button>
+            <button id="delete_button" class="btn clear-items">删除商品</button>
+        </div>
+
+        <div style="padding: 0 20px; margin-top: 20px;">
+            <h3 style="color: #1a936f; margin-bottom: 10px; font-size: 18px;">当前订单</h3>
+            <ul id="selectedUl">
+            </ul>
+        </div>
+
+        <div class="order-summary">
+            <table>
+                <thead>
+                    <tr>
+                        <th>商品名称</th>
+                        <th>数量</th>
+                        <th>价格</th>
+                        <th>小计</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 订单项将通过JavaScript动态添加 -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">合计</td>
+                        <td class="total-price" id="total_amount">¥ 0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="checkout-button">
+            <button id="confirm_button" class="btn checkout">确认订单</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
