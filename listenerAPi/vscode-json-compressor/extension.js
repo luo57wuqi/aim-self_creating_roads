@@ -5,9 +5,12 @@ const vscode = require('vscode');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-    console.log('JSON Compressor 插件已激活');
+    console.log('文本格式化插件已激活');
 
-    let disposable = vscode.commands.registerCommand('json-compressor.compress', function () {
+    // 存储原始文本用于反向操作
+    let originalTexts = new Map();
+
+    let disposable = vscode.commands.registerCommand('text-formatter.format', function () {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             vscode.window.showInformationMessage('请先打开一个编辑器');
@@ -19,32 +22,48 @@ function activate(context) {
         
         // 获取选中的文本，如果没有选中则获取整个文档
         let text = '';
+        let range;
         if (selection.isEmpty) {
             text = document.getText();
+            range = new vscode.Range(
+                document.positionAt(0),
+                document.positionAt(document.getText().length)
+            );
         } else {
             text = document.getText(selection);
+            range = selection;
         }
 
+        // 生成唯一标识符
+        const docId = document.uri.toString();
+        const rangeId = `${range.start.line}-${range.start.character}-${range.end.line}-${range.end.character}`;
+        const key = `${docId}_${rangeId}`;
+
         try {
-            // 压缩JSON
-            const compressed = compressJson(text);
-            
-            // 替换选中的文本或整个文档
+            let formatted;
+            let message;
+
+            // 检查是否是反向操作
+            if (originalTexts.has(key)) {
+                // 反向操作：恢复原始文本
+                formatted = originalTexts.get(key);
+                originalTexts.delete(key);
+                message = '文本已恢复原始格式！';
+            } else {
+                // 正向操作：替换空格和换行
+                originalTexts.set(key, text);
+                formatted = formatText(text);
+                message = '文本格式化完成！';
+            }
+
+            // 替换文本
             editor.edit(editBuilder => {
-                if (selection.isEmpty) {
-                    const fullRange = new vscode.Range(
-                        document.positionAt(0),
-                        document.positionAt(document.getText().length)
-                    );
-                    editBuilder.replace(fullRange, compressed);
-                } else {
-                    editBuilder.replace(selection, compressed);
-                }
+                editBuilder.replace(range, formatted);
             });
 
-            vscode.window.showInformationMessage('JSON 压缩完成！');
+            vscode.window.showInformationMessage(message);
         } catch (error) {
-            vscode.window.showErrorMessage(`压缩失败: ${error.message}`);
+            vscode.window.showErrorMessage(`格式化失败: ${error.message}`);
         }
     });
 
@@ -52,58 +71,22 @@ function activate(context) {
 }
 
 /**
- * 智能压缩任何JSON/JS对象格式
+ * 格式化文本：将空格和换行符替换为单个空格
  * @param {string} text
  * @returns {string}
  */
-function compressAnyJson(text) {
-    // 首先尝试自动修复格式
-    text = autoFixJsonFormat(text);
-    
-    // 尝试直接解析
-    let obj;
-    try {
-        obj = JSON.parse(text);
-    } catch (parseError) {
-        // 如果解析失败，尝试提取有效部分
-        let jsText = text.trim();
-        
-        // 提取对象或数组部分
-        const objectMatch = jsText.match(/\{[\s\S]*\}/);
-        const arrayMatch = jsText.match(/\[[\s\S]*\]/);
-        let targetMatch = objectMatch || arrayMatch;
-        
-        if (!targetMatch) {
-            throw new Error('未找到有效的数据');
-        }
-        
-        jsText = targetMatch[0];
-        
-        // 再次尝试修复
-        jsText = autoFixJsonFormat(jsText);
-        
-        try {
-            obj = JSON.parse(jsText);
-        } catch (e) {
-            // 最后尝试eval
-            try {
-                const func = new Function('return ' + jsText);
-                obj = func();
-            } catch (evalError) {
-                throw new Error('无法解析格式：' + e.message);
-            }
-        }
-    }
-
-    // 压缩为单行
-    return JSON.stringify(obj);
+function formatText(text) {
+    // 将多个空格、制表符、换行符等替换为单个空格
+    return text
+        .replace(/\s+/g, ' ')  // 将所有空白字符（空格、制表符、换行符等）替换为单个空格
+        .trim();               // 移除开头和结尾的空格
 }
 
 /**
  * 停用插件
  */
 function deactivate() {
-    console.log('JSON Compressor 插件已停用');
+    console.log('文本格式化插件已停用');
 }
 
 module.exports = {

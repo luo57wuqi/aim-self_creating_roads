@@ -1,42 +1,32 @@
 {
-  "name": "json-compressor",
-  "displayName": "JSON Compressor",
-  "description": "压缩多行JSON对象为单行，快捷键 Alt+L",
-  "version": "1.0.0",
-  "publisher": "your-name",
-  "engines": {
-    "vscode": "^1.74.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:json-compressor.compress"
-  ],
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "json-compressor.compress",
-        "title": "压缩JSON对象"
-      }
+    "name": "text-formatter",
+    "displayName": "文本格式化器",
+    "description": "VS Code插件，用于格式化选中文本：将空格和换行替换为单个空格，再次按Alt+L恢复原始格式",
+    "version": "1.1.0",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "json-compressor.compress",
-        "key": "alt+l",
-        "when": "editorTextFocus"
-      }
-    ]
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "node ./test/runTest.js"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.74.0",
-    "@types/node": "16.x",
-    "eslint": "^8.26.0"
-  }
+    "activationEvents": [
+        "onCommand:text-formatter.format"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "text-formatter.format",
+                "title": "格式化文本",
+                "category": "文本格式化器"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "text-formatter.format",
+                "key": "alt+l",
+                "when": "editorTextFocus"
+            }
+        ]
+    }
 }
