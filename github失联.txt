@@ -1,0 +1,83 @@
+Microsoft Windows [版本 10.0.26100.6584]
+(c) Microsoft Corporation。保留所有权利。
+
+C:\Windows\System32>  netsh winhttp set proxy 127.0.0.1:17890
+
+当前的 WinHTTP 代理服务器设置:
+
+    代理服务器:  127.0.0.1:17890
+    绕过列表     :  (无)
+
+
+C:\Windows\System32>ping github.com
+
+正在 Ping github.com [140.82.121.3] 具有 32 字节的数据:
+请求超时。
+请求超时。
+请求超时。
+请求超时。
+
+140.82.121.3 的 Ping 统计信息:
+    数据包: 已发送 = 4，已接收 = 0，丢失 = 4 (100% 丢失)，
+
+C:\Windows\System32>netsh winhttp set proxy 127.0.0.1:17890
+
+当前的 WinHTTP 代理服务器设置:
+
+    代理服务器:  127.0.0.1:17890
+    绕过列表     :  (无)
+
+
+C:\Windows\System32>ipconfig
+
+Windows IP 配置
+
+
+以太网适配器 以太网:
+
+   连接特定的 DNS 后缀 . . . . . . . :
+   本地链接 IPv6 地址. . . . . . . . : fe80::8649:72b8:57ab:dc83%14
+   IPv4 地址 . . . . . . . . . . . . : 192.168.0.30
+   子网掩码  . . . . . . . . . . . . : 255.255.255.0
+   默认网关. . . . . . . . . . . . . : 192.168.0.1
+
+C:\Windows\System32>git config --global http.proxy socks5://127.0.0.1:17890
+
+C:\Windows\System32>git config --global https.proxy socks5://127.0.0.1:17890
+
+C:\Windows\System32>git clone https://github.com/username/repo.git
+Cloning into 'repo'...
+remote: Repository not found.
+fatal: repository 'https://github.com/username/repo.git/' not found
+
+C:\Windows\System32>ping github.com
+
+正在 Ping github.com [140.82.121.3] 具有 32 字节的数据:
+请求超时。
+请求超时。
+请求超时。
+请求超时。
+
+140.82.121.3 的 Ping 统计信息:
+    数据包: 已发送 = 4，已接收 = 0，丢失 = 4 (100% 丢失)，
+
+C:\Windows\System32>
+
+
+C:\Windows\System32\drivers\etc>curl -x http://127.0.0.1:17890 -I https://github.com
+HTTP/1.1 200 Connection established
+
+HTTP/1.1 200 OK
+Date: Thu, 18 Sep 2025 04:52:57 GMT
+Content-Type: text/html; charset=utf-8
+Vary: X-PJAX, X-P
+
+C:\Windows\System32\drivers\etc>curl --socks5 127.0.0.1:17890 -I https://github.com
+HTTP/1.1 200 OK
+Date: Thu, 18 Sep 2025 04:53:03 GMT
+Content-Type: text/html; charset=utf-8
+
+神奇的是我关闭vpn 后还可以git push
+
+
+
