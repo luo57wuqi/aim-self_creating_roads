@@ -1,4 +1,4 @@
-sourceDatas = {
+sourceDatas = [
     "268_BSL00218精选": 35,
     "268_BSL00218想要": 3000,
     "269_BLJ05036已买": 56,
