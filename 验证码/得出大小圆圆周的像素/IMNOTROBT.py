@@ -147,7 +147,7 @@ def run_extraction(inner_d, outer_d):
     extract_inner_outer_circle("imgs/demo_i.png", inner_d, outer_d)
 
 # 读取图片中内外圆圆周上360°的像素点
-def get_circle_pixels(image_path, inner_diameter, outer_diameter, num_points=360, grayscale=False):
+def get_circle_pixels(image_path, inner_diameter, outer_diameter, num_points=360):
     """
     读取图片中内外圆圆周上360°的像素点
     
@@ -156,18 +156,13 @@ def get_circle_pixels(image_path, inner_diameter, outer_diameter, num_points=360
         inner_diameter: 内圆直径
         outer_diameter: 外圆直径
         num_points: 采样点数（默认360，对应360°）
-        grayscale: 是否返回灰度值（默认False，返回BGR格式）
     
     返回:
-        inner_pixels: 内圆圆周像素列表
-        outer_pixels: 外圆圆周像素列表
+        inner_pixels: 内圆圆周像素列表，形状为 (num_points, 3) - BGR格式
+        outer_pixels: 外圆圆周像素列表，形状为 (num_points, 3) - BGR格式
     """
     # 读取图像
-    if grayscale:
-        img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    else:
-        img = cv2.imread(image_path)
-    
+    img = cv2.imread(image_path)
     if img is None:
         raise ValueError(f"无法读取图像: {image_path}")
     
@@ -196,131 +191,58 @@ def get_circle_pixels(image_path, inner_diameter, outer_diameter, num_points=360
         
         # 确保坐标在图像范围内
         if 0 <= x_inner < w and 0 <= y_inner < h:
-            if grayscale:
-                inner_pixels.append(img[y_inner, x_inner])
-            else:
-                inner_pixels.append(img[y_inner, x_inner])
+            inner_pixels.append(img[y_inner, x_inner])
         else:
-            if grayscale:
-                inner_pixels.append(0)  # 超出范围用黑色填充
-            else:
-                inner_pixels.append([0, 0, 0])  # 超出范围用黑色填充
+            inner_pixels.append([0, 0, 0])  # 超出范围用黑色填充
             
         if 0 <= x_outer < w and 0 <= y_outer < h:
-            if grayscale:
-                outer_pixels.append(img[y_outer, x_outer])
-            else:
-                outer_pixels.append(img[y_outer, x_outer])
+            outer_pixels.append(img[y_outer, x_outer])
         else:
-            if grayscale:
-                outer_pixels.append(0)  # 超出范围用黑色填充
-            else:
-                outer_pixels.append([0, 0, 0])  # 超出范围用黑色填充
+            outer_pixels.append([0, 0, 0])  # 超出范围用黑色填充
     
     return np.array(inner_pixels), np.array(outer_pixels)
 
 # 可视化内外圆圆周像素
-def visualize_circle_pixels(inner_pixels, outer_pixels, grayscale=False):
+def visualize_circle_pixels(inner_pixels, outer_pixels):
     """
     可视化内外圆圆周像素
-    
-    参数:
-        inner_pixels: 内圆像素数组
-        outer_pixels: 外圆像素数组
-        grayscale: 是否为灰度图像（默认False）
     """
     plt.figure(figsize=(15, 8))
     
-    if grayscale:
-        # 灰度图像可视化
-        plt.subplot(211)
-        plt.plot(inner_pixels, 'b-', linewidth=1)
-        plt.title("内圆圆周像素值 (360°)")
-        plt.xlabel("角度 (°)")
-        plt.ylabel("灰度值")
-        plt.grid(True, alpha=0.3)
-        plt.xticks(np.linspace(0, 359, 12), np.linspace(0, 330, 12, dtype=int))
-        
-        plt.subplot(212)
-        plt.plot(outer_pixels, 'r-', linewidth=1)
-        plt.title("外圆圆周像素值 (360°)")
-        plt.xlabel("角度 (°)")
-        plt.ylabel("灰度值")
-        plt.grid(True, alpha=0.3)
-        plt.xticks(np.linspace(0, 359, 12), np.linspace(0, 330, 12, dtype=int))
-    else:
-        # 彩色图像可视化
-        inner_rgb = cv2.cvtColor(inner_pixels.reshape(1, -1, 3), cv2.COLOR_BGR2RGB)
-        outer_rgb = cv2.cvtColor(outer_pixels.reshape(1, -1, 3), cv2.COLOR_BGR2RGB)
-        
-        # 绘制内圆像素
-        plt.subplot(211)
-        plt.imshow(inner_rgb, aspect='auto')
-        plt.title("内圆圆周像素 (360°)")
-        plt.xlabel("角度 (°)")
-        plt.ylabel("像素值")
-        plt.xticks(np.linspace(0, 359, 12), np.linspace(0, 330, 12, dtype=int))
-        
-        # 绘制外圆像素
-        plt.subplot(212)
-        plt.imshow(outer_rgb, aspect='auto')
-        plt.title("外圆圆周像素 (360°)")
-        plt.xlabel("角度 (°)")
-        plt.ylabel("像素值")
-        plt.xticks(np.linspace(0, 359, 12), np.linspace(0, 330, 12, dtype=int))
+    # 转换为RGB格式用于显示
+    inner_rgb = cv2.cvtColor(inner_pixels.reshape(1, -1, 3), cv2.COLOR_BGR2RGB)
+    outer_rgb = cv2.cvtColor(outer_pixels.reshape(1, -1, 3), cv2.COLOR_BGR2RGB)
+    
+    # 绘制内圆像素
+    plt.subplot(211)
+    plt.imshow(inner_rgb, aspect='auto')
+    plt.title("inner (360°)")
+    plt.xlabel("angle (°)")
+    plt.ylabel("RGB")
+    plt.xticks(np.linspace(0, 359, 12), np.linspace(0, 330, 12, dtype=int))
+    
+    # 绘制外圆像素
+    plt.subplot(212)
+    plt.imshow(outer_rgb, aspect='auto')
+    plt.title("outer (360°)")
+    plt.xlabel("angle (°)")
+    plt.ylabel("RGB")
+    plt.xticks(np.linspace(0, 359, 12), np.linspace(0, 330, 12, dtype=int))
     
     plt.tight_layout()
     plt.show()
     
-    def match_circle_curves(inner_curve, outer_curve, threshold=0.9, max_shift=360):
-    """
-    判断两个圆周曲线是否匹配（考虑旋转）
-    
-    参数:
-        inner_curve: 内圆灰度曲线 (1D numpy array)
-        outer_curve: 外圆灰度曲线 (1D numpy array)
-        threshold: 匹配阈值 (默认0.9)
-        max_shift: 最大旋转移位 (默认360)
-    
-    返回:
-        is_match: 是否匹配 (bool)
-        best_score: 最佳相似度
-        best_shift: 最佳旋转移位
-    """
-    if len(inner_curve) != len(outer_curve):
-        raise ValueError("两个曲线的长度必须相同")
-    
-    n = len(inner_curve)
-    best_score = -np.inf
-    best_shift = 0
-    
-    # 转换为浮点类型以进行匹配
-    inner_curve = inner_curve.astype(np.float32)
-    outer_curve = outer_curve.astype(np.float32)
-    
-    # 重塑为2D以使用matchTemplate (高度1，宽度n)
-    inner_2d = inner_curve.reshape(1, -1)
-    outer_2d = outer_curve.reshape(1, -1)
-    
-    for shift in range(max_shift):
-        # 旋转内曲线
-        shifted = np.roll(inner_2d, shift)
-        
-        # 计算归一化互相关
-        score = cv2.matchTemplate(shifted, outer_2d, cv2.TM_CCOEFF_NORMED)[0][0]
-        
-        if score > best_score:
-            best_score = score
-            best_shift = shift
-    
-    is_match = best_score >= threshold
-    return is_match, best_score, best_shift
+    # 打印统计信息
+    print(f"内圆像素形状: {inner_pixels.shape}")
+    print(f"外圆像素形状: {outer_pixels.shape}")
+    print(f"内圆像素均值: {np.mean(inner_pixels, axis=0)}")
+    print(f"外圆像素均值: {np.mean(outer_pixels, axis=0)}")
 
 
-# 测试匹配函数
-print("\n=== 曲线匹配测试 ===")
-is_match, score, shift = match_circle_curves(inner_pixels_gray, outer_pixels_gray)
-print(f"是否匹配: {is_match}")
-print(f"最佳相似度: {score:.4f}")
-print(f"最佳旋转移位: {shift} (角度: {shift}°)")
+# 1 分割正方向的内外圆
+# extract_inner_outer_circle("imgs/demo_i.png", 260, 290)
+
+#2 读取图片中内外圆圆周上360°的像素点
+inner_pixels, outer_pixels = get_circle_pixels("imgs/demo_i.png", 260, 290)
+visualize_circle_pixels(inner_pixels, outer_pixels)
 
